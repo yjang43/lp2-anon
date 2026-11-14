@@ -1,0 +1,31 @@
+# Action-conditioned fit (free A, fit_act.py): OLS z' ~ A z + B a on consecutive frozen
+# embeddings and raw actions, one frameskip apart. Residual noise basis;
+# plan with cost=act.
+defaults:
+  - _self_
+  - launcher: local
+  - data: tworoom
+
+pretrained_ckpt: tworooms/lewm/weights.pt
+output_model_name: tworooms/lewm/act_residual
+subdir: ${hydra:job.id}
+
+seed: 0
+train_split: 0.9
+img_size: 224
+num_workers: 6
+embed_dim: 192
+
+loader:
+  batch_size: 4096
+  num_workers: ${num_workers}
+  persistent_workers: True
+  prefetch_factor: 3
+  pin_memory: False
+
+# Only resolves the num_steps interpolation in data/*.yaml; the fit itself
+# reads frame pairs at data.dataset.frameskip regardless.
+wm:
+  history_size: 1
+  num_preds: 0
+  frameskip: ${data.dataset.frameskip}

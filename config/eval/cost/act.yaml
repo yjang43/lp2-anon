@@ -1,0 +1,6 @@
+# Goal MSE on the k least-noisy directions of the action-conditioned fit:
+# act_ckpt is <task>/lewm/act_residual/basis.pt (fit_act.py, free A) or
+# <task>/lewm/act_ours_seed<s>/basis.pt (fit_act_ours.py, fixed A).
+_target_: cost.ACTGoalMSE
+act_ckpt: ???
+k: ???

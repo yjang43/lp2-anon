@@ -1,0 +1,16 @@
+# stable-worldmodel: we use a fork of https://github.com/galilai-group/stable-worldmodel with small
+# changes for the evaluation protocol. The pinned fork is withheld for anonymity and will be released
+# with the camera-ready version.
+stable-worldmodel[train,env,format]
+scikit-learn
+# versions the results were produced with; newer transformers renames the ViT
+# weights, so the pretrained world models no longer load
+transformers==5.8.1
+torch==2.10.0
+torchvision==0.25.0
+mujoco==3.8.1
+gymnasium==1.2.3
+gymnasium-robotics==1.4.2
+# only needed by the fork's PointMaze expert collectors, which download the
+# D4RL datasets through it
+minari==0.5.3

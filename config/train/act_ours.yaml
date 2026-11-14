@@ -1,0 +1,31 @@
+# Empirical residual noise around the fitted normal drift (fixed A, fit_act_ours.py):
+# Sigma = Cov(z' - Az) - B Cov(xi) B^T. Plan with cost=act (act_ckpt=<output_model_name>/basis.pt).
+defaults:
+  - _self_
+  - launcher: local
+  - data: tworoom
+
+pretrained_ckpt: tworooms/lewm/weights.pt
+drift_ckpt: tworooms/lewm/normal_drift_seed0/drift_epoch_50.pt
+output_model_name: tworooms/lewm/act_ours_seed0
+subdir: ${hydra:job.id}
+
+seed: 0
+train_split: 0.9
+img_size: 224
+num_workers: 6
+embed_dim: 192
+
+loader:
+  batch_size: 4096
+  num_workers: ${num_workers}
+  persistent_workers: True
+  prefetch_factor: 3
+  pin_memory: False
+
+# Only resolves the num_steps interpolation in data/*.yaml; the fit itself
+# reads frame pairs at data.dataset.frameskip regardless.
+wm:
+  history_size: 1
+  num_preds: 0
+  frameskip: ${data.dataset.frameskip}
